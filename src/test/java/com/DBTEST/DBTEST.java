@@ -1,13 +1,9 @@
 package com.DBTEST;
-
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBTEST {
-WebDriver driver;
 	
 	@Test
 	public void selectDBdata() throws ClassNotFoundException, SQLException{
@@ -24,8 +20,6 @@ WebDriver driver;
 			System.out.println(" Email: "+data.getString(4));
 			System.out.println();
 		}
-
-
 	}
 	
 	@Test
@@ -35,13 +29,31 @@ WebDriver driver;
 		dataBase.insertData(query);
 		System.out.println("Data Insert into Table Successfully.");
 	}
-	
 	@Test
 	public void updateDBdata() throws ClassNotFoundException, SQLException{
-		String query = "update seleniumusers set firstname='Eric' where emalil='testing123@gmail.com'";
+		String query = "update seleniumusers set firstname='John' where emalil='testing123@gmail.com'";
 		DataBase dataBase = new DataBase();
 		dataBase.updateData(query);
 		System.out.println("Database Updated Successfully.");
+	}
+	@Test
+	public void IsStoredInDB()
+	{
+		String query = "select * from seleniumusers ORDER BY ID DESC";
+		DataBase dataBase = new DataBase();
+		try {
+			ResultSet data = dataBase.getData(query);
+
+			data.next();
+			if (data.getString(2).equalsIgnoreCase("John"))
+			{
+				System.out.println("Record Updated in Table Successfully.");
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
